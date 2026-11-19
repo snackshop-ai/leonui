@@ -1,0 +1,24 @@
+; Minimal Godot 4 project settings for the movement module.
+config_version=5
+
+[application]
+config/name="Mountain Movement MVP"
+run/main_scene="res://main.tscn"
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/handheld/orientation=2
+window/stretch/mode="canvas_items"
+
+[input]
+move_forward={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":87)]}
+move_backward={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":83)]}
+move_left={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":65)]}
+move_right={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":68)]}
+sprint={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":4194325)]}
+jump={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":32)]}
+climb={"deadzone": 0.2, "events": [Object(InputEventKey,"physical_keycode":69)]}
+
+[physics]
+3d/default_gravity=24.0
