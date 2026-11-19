@@ -1,0 +1,93 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://player_movement.gd" id="1_player"]
+[ext_resource type="Script" path="res://camera_follow.gd" id="2_camera"]
+[ext_resource type="Script" path="res://mobile_controls.gd" id="3_touch"]
+
+[sub_resource type="CapsuleShape3D" id="PlayerShape"]
+radius = 0.38
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="PlayerMesh"]
+radius = 0.38
+height = 1.8
+
+[sub_resource type="BoxShape3D" id="GroundShape"]
+size = Vector3(40, 1, 50)
+
+[sub_resource type="BoxShape3D" id="WallShape"]
+size = Vector3(10, 4, 0.7)
+
+[sub_resource type="BoxShape3D" id="TopShape"]
+size = Vector3(12, 0.8, 8)
+
+[sub_resource type="BoxMesh" id="GroundMeshResource"]
+size = Vector3(40, 1, 50)
+
+[sub_resource type="BoxMesh" id="WallMeshResource"]
+size = Vector3(10, 4, 0.7)
+
+[sub_resource type="BoxMesh" id="TopMeshResource"]
+size = Vector3(12, 0.8, 8)
+
+[node name="MountainDemo" type="Node3D"]
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.9, -0.55, 0)
+light_color = Color(1, 0.91, 0.75, 1)
+shadow_enabled = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+position = Vector3(0, -0.5, -7)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("GroundShape")
+
+[node name="GroundMesh" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("GroundMeshResource")
+
+[node name="Cliff" type="StaticBody3D" parent="." groups=["Climbable"]]
+position = Vector3(0, 2, -9)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cliff"]
+shape = SubResource("WallShape")
+
+[node name="CliffMesh" type="MeshInstance3D" parent="Cliff"]
+mesh = SubResource("WallMeshResource")
+
+[node name="Summit" type="StaticBody3D" parent="."]
+position = Vector3(0, 4, -15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Summit"]
+shape = SubResource("TopShape")
+
+[node name="SummitMesh" type="MeshInstance3D" parent="Summit"]
+mesh = SubResource("TopMeshResource")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("1_player")
+camera_path = NodePath("Camera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("PlayerShape")
+position = Vector3(0, 0.9, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("PlayerMesh")
+position = Vector3(0, 0.9, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+current = true
+script = ExtResource("2_camera")
+
+[node name="TouchHUD" type="CanvasLayer" parent="Player"]
+layer = 10
+
+[node name="MobileControls" type="Control" parent="Player/TouchHUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_touch")
